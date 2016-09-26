@@ -1,0 +1,52 @@
+=== Grails 3 support
+
+This major release is working with Grails 3. It's based on Spring Security Core plugin version 3.x, which in turn uses
+Spring Security 4, so make sure you read carefully what the new versions have changed:
+
+https://grails-plugins.github.io/grails-spring-security-core/v3/index.html#newInV3[]
+
+[WARNING]
+====
+The plugin it's still on a milestone release stage, which means that some things might change in the final `2.0.0`.
+In particular, the main change in the roadmap is the modularisation of the different token storages support. They will
+be published as separated artifacts.
+
+Interfaces in the Groovy API might also be refactored.
+====
+
+Special thanks to https://github.com/Schlogen[James Kleeh] for his help in the initial upgrade steps.
+
+=== Plugin broken down into multiple modules
+
+Starting from this version, `org.grails.plugins:spring-security-rest` just contains support for JWT. Artifact size has
+been reduced from 429 KB in version 1.5.3 to 194K in 2.0.x!
+
+For those using a different token storage system, the following artifacts are also published:
+
+* `org.grails.plugins:spring-security-rest-gorm`.
+* `org.grails.plugins:spring-security-rest-grailscache`.
+* `org.grails.plugins:spring-security-rest-memcached`.
+* `org.grails.plugins:spring-security-rest-redis`.
+
+The version is the same in all modules. For more details, check the <<configuration>> section.
+
+As a consequence, configuration properties like `grails.plugin.springsecurity.rest.token.storage.useMemcached` are no
+longer used.
+
+=== CORS plugin dropped
+
+Starting from 2.x, the `cors` plugin is not installed by default anymore, fundamentally because it hasn't been upgraded
+to Grails 3, and there is little value in doing so.
+
+However, the plugin author https://github.com/davidtinker/grails-cors#grails-3[has shared a simple filter code] that
+you can use to enable CORS in your application.
+
+Alternatively, you can also use https://github.com/appcela/grails3-cors-interceptor[this plugin].
+
+=== Other minor updates
+
+* Documentation has been migrated to Asciidoctor.
+* Snapshots are now published automatically to https://oss.jfrog.org[Artifactory OSS] on every successful build. You can
+  use them by defining this Maven repository inside the `repositories` block in your `build.gradle`:
+
+  maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }

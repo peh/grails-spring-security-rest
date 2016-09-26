@@ -1,18 +1,13 @@
 #!/bin/bash
 
-./grailsw compile
+set -e
+set -x
 
-./grailsw maven-install
+[[ ! -z "$BINTRAY_KEY" ]] && echo "bintrayKey=$BINTRAY_KEY" >> ~/.gradle/gradle.properties
+[[ ! -z "$PLUGIN_PORTAL_PASSWORD" ]] && echo "pluginPortalPassword=$PLUGIN_PORTAL_PASSWORD" >> ~/.gradle/gradle.properties
 
-./grailsw test-app --echoOut \
-  && cd test/apps \
-  && for app in `ls .`; do
-     cd $app && ./test-app.sh && cd ..
-     if [ $? -ne 0 ]; then
-        echo -e "\033[0;31mTests FAILED\033[0m"
-        exit -1
-     fi
-     done \
-  && cd ../../
+./generate-test-apps.sh
 
-./gradlew license
+./gradlew check
+
+if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./gradlew artifactoryPublish; fi

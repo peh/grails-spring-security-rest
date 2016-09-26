@@ -1,0 +1,66 @@
+plugins {
+    //id "com.github.hierynomus.license" version "0.11.0"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.grails:grails-bom:$grailsVersion"
+    }
+    applyMavenExclusions false
+}
+
+ext {
+    pac4jVersion = '1.8.3'
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    compile "org.grails:grails-dependencies"
+    compile "org.grails:grails-web-boot"
+
+    compile "com.google.guava:guava:19.0"
+
+    compile "org.pac4j:pac4j-core:${pac4jVersion}"
+    compile "org.pac4j:pac4j-oauth:${pac4jVersion}"
+    compile "org.pac4j:pac4j-cas:${pac4jVersion}"
+
+    compile "com.nimbusds:nimbus-jose-jwt:4.8"
+    compile("com.lowagie:itext:2.0.8") {
+        exclude module: "bcprov-jdk14"
+    }
+    compile 'commons-codec:commons-codec:1.10'
+    compile "org.grails.plugins:spring-security-core:3.1.1"
+
+    testCompile "org.gperfutils:gbench:0.4.3-groovy-2.4"
+
+    profile "org.grails.profiles:web-plugin:${grailsVersion}"
+}
+
+/*
+license {
+
+    sourceSets {
+        main {
+            groovy {
+                srcDirs = [
+                    'grails-app/controllers',
+                    'grails-app/services',
+                    'src/main/groovy',
+                ]
+            }
+        }
+        test {
+            groovy {
+                srcDirs = [
+                    'src/test/groovy'
+                ]
+            }
+        }
+    }
+
+    ext.year = Calendar.instance.get(Calendar.YEAR)
+    ext.name = 'Alvaro Sanchez-Mariscal'
+    ext.email = 'alvaro.sanchezmariscal@gmail.com'
+}
+*/
